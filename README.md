@@ -58,7 +58,7 @@ Creating a user:
 ```
 use admin
 db.createUser({
-  user: "rs-admin",
+  user: "dbadmin",
   pwd: "P4ssw0rd;",
   roles: [
     {role: "root", db: "admin"}
