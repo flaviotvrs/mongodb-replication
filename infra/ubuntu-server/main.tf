@@ -45,7 +45,7 @@ resource "azurerm_network_interface" "internal" {
 }
 
 resource "azurerm_network_security_group" "webserver" {
-  name                = "tls_webserver"
+  name                = "${var.server_name}-tls_webserver"
   location            = var.location
   resource_group_name = var.resource_group_name
   security_rule {
