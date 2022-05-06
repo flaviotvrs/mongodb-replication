@@ -72,7 +72,7 @@ resource "azurerm_linux_virtual_machine" "main" {
   location                        = var.location
   size                            = "Standard_DS1_v2"
   admin_username                  = "dbadmin"
-  admin_password                  = "P4ssw0rd!"
+  admin_password                  = "P4ssw0rd;"
   disable_password_authentication = false
   network_interface_ids = [
     azurerm_network_interface.main.id,
