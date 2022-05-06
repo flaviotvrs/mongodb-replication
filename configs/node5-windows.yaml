@@ -1,0 +1,14 @@
+storage:
+  dbPath: C:\data\db\node5
+net:
+  bindIp: localhost
+  port: 27015
+security:
+  authorization: enabled
+  keyFile: C:\data\pki\dbst-keyfile
+systemLog:
+  destination: file
+  path: C:\data\logs\node5\mongod.log
+  logAppend: true
+replication:
+  replSetName: dbst-replset
