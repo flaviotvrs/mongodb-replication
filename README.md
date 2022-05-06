@@ -25,8 +25,8 @@ chmod 400 /var/mongodb/pki/dbst-keyfile
 Creating a db path and log path for all nodes:
 
 ```
-mkdir -p /var/mongodb/db/{node1,node2,node3}
-mkdir -p /var/mongodb/logs/{node1,node2,node3}
+mkdir -p /var/mongodb/db/node{1,2,3,4,5}
+mkdir -p /var/mongodb/logs/node{1,2,3,4,5}
 ```
 
 Starting first mongod node:
@@ -81,6 +81,7 @@ Adding other members to replica set:
 ```
 rs.add("localhost:27012")
 rs.add("localhost:27013")
+...
 ```
 
 Getting an overview of the replica set topology:

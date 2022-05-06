@@ -1,0 +1,16 @@
+storage:
+  dbPath: /var/mongodb/db/node4
+net:
+  bindIp: 192.168.0.192
+  port: 27014
+security:
+  authorization: enabled
+  keyFile: /var/mongodb/pki/dbst-keyfile
+systemLog:
+  destination: file
+  path: /var/mongodb/logs/node4/mongod.log
+  logAppend: true
+processManagement:
+  fork: true
+replication:
+  replSetName: dbst-replset
