@@ -14,15 +14,26 @@ Execute terraform apply command below to have your virtual machines created on A
 terraform apply
 ```
 
-### Install MongoDB
+### Install MongoDB Server
 
-For each node you have in your topology you'll have to install MongoDB
+For each node you have in your topology you'll have to install MongoDB Server
 ```
 wget https://repo.mongodb.org/apt/ubuntu/dists/bionic/mongodb-org/5.0/multiverse/binary-amd64/mongodb-org-server_5.0.8_amd64.deb
 
 sudo dpkg -i mongodb-org-server_5.0.8_amd64.deb
 
 mongod --version
+```
+
+### Install MongoDB Shell
+
+Pick one node where to install MongoDB Shell, it will be used later for initial setup
+```
+wget https://downloads.mongodb.com/compass/mongodb-mongosh_1.3.1_amd64.deb
+
+sudo dpkg -i mongodb-mongosh_1.3.1_amd64.deb
+
+mongosh --version
 ```
 
 ### Check out repository

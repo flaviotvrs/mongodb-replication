@@ -40,13 +40,13 @@ sudo chown -R dbadmin /var/mongodb
 
 Upload this keyfile into all your nodes:
 ```
-scp dbst-keyfile dbadmin@remote_host:/var/mongodb/pki/dbst-keyfile
+scp dbst-keyfile dbadmin@remote_host_n:/var/mongodb/pki/dbst-keyfile
 ```
 
 Starting mongod proccess for each node:
 
 ```
-mongod -f configs/nodeN.yaml
+mongod -f configs/node-ubuntu.yaml
 ```
 
 Check if the proccess is running:
@@ -54,11 +54,16 @@ Check if the proccess is running:
 ps aux | grep mongod
 ```
 
+Monitor the logs of mongod proccess:
+```
+tail -f /var/mongodb/logs/mongod.log
+```
+
 ### Configuring ReplicaSet
 
 Connecting to one of your nodes:
 ```
-mongo --port 27011
+mongosh --port 27017
 ```
 
 Initiating the replica set:
@@ -81,7 +86,7 @@ db.createUser({
 Exiting out of the Mongo shell and connecting to the entire replica set:
 ```
 exit
-mongo --host "dbst-replset/localhost:27011" -u "dbadmin" -p "P4ssw0rd;" --authenticationDatabase "admin"
+mongosh --host "dbst-replset/remote_host_1:27017" -u "dbadmin" -p "P4ssw0rd;" --authenticationDatabase "admin"
 ```
 
 Getting replica set status:
@@ -91,8 +96,8 @@ rs.status()
 
 Adding other members to replica set:
 ```
-rs.add("localhost:27012")
-rs.add("localhost:27013")
+rs.add("remote_host_2:27017")
+rs.add("remote_host_3:27017")
 ...
 ```
 
