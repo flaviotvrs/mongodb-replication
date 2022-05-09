@@ -1,5 +1,5 @@
 storage:
-  dbPath: C:\data\db\node6
+  dbPath: C:\data\db
 net:
   bindIp: localhost
   port: 27016
@@ -8,7 +8,7 @@ security:
   keyFile: C:\data\pki\dbst-keyfile
 systemLog:
   destination: file
-  path: C:\data\logs\node6\mongod.log
+  path: C:\data\logs\mongod.log
   logAppend: true
 replication:
   replSetName: dbst-replset

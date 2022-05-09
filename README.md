@@ -21,38 +21,42 @@ I've terraformed this required environment for you, please take a look at [this 
 Or you can execute this script on a single machine, for example your own laptop. Just pretend that each running process of `mongod` is an independent node and it will work as well.
 
 ### Initial setup
-Creating the keyfile:
+
+On your local environment generate one keyfile that will be used for the nodes to authenticate with each other:
 
 ```
-sudo mkdir -p /var/mongodb/pki/
-sudo chown $USER /var/mongodb/pki/
-openssl rand -base64 741 > /var/mongodb/pki/dbst-keyfile
-chmod 400 /var/mongodb/pki/dbst-keyfile
+openssl rand -base64 741 > ./dbst-keyfile
+chmod 400 ./dbst-keyfile
 ```
 
-Creating a db path and log path for all nodes:
+Creating a db path and log path for each node:
 
 ```
-mkdir -p /var/mongodb/db/node{1,2,3,4,5}
-mkdir -p /var/mongodb/logs/node{1,2,3,4,5}
+sudo mkdir -p /var/mongodb/db
+sudo mkdir -p /var/mongodb/logs
+sudo mkdir -p /var/mongodb/pki
+sudo chown -R dbadmin /var/mongodb
 ```
 
-Starting first mongod node:
-
+Upload this keyfile into all your nodes:
 ```
-mongod -f configs/node1.yaml
-mongod -f configs/node2.yaml
-mongod -f configs/node3.yaml
+scp dbst-keyfile dbadmin@remote_host:/var/mongodb/pki/dbst-keyfile
 ```
 
-Check if they are all running:
+Starting mongod proccess for each node:
+
+```
+mongod -f configs/nodeN.yaml
+```
+
+Check if the proccess is running:
 ```
 ps aux | grep mongod
 ```
 
-### ReplicaSet
+### Configuring ReplicaSet
 
-Connecting to *node1*:
+Connecting to one of your nodes:
 ```
 mongo --port 27011
 ```

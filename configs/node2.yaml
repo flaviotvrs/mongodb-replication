@@ -1,5 +1,5 @@
 storage:
-  dbPath: /var/mongodb/db/node2
+  dbPath: /var/mongodb/db
 net:
   bindIp: localhost
   port: 27012
@@ -8,7 +8,7 @@ security:
   keyFile: /var/mongodb/pki/dbst-keyfile
 systemLog:
   destination: file
-  path: /var/mongodb/logs/node2/mongod.log
+  path: /var/mongodb/logs/mongod.log
   logAppend: true
 processManagement:
   fork: true
