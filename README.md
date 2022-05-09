@@ -12,7 +12,15 @@ Elections take place whenever there is a change in topology or a reconfig in rep
 A node with priority 0 can vote for election but it cannot run for election.
 
 ## Setup your environment
+
 ### Infrastructure
+In order to be able to exercise all concepts of this lab please provision 3 virtual machines - or phisical machines - in a network where they can reach each other and install MongoDB version 5 on each of them.
+
+I've terraformed this required environment for you, please take a look at [this instructions](./infra/README.md).
+
+Or you can execute this script on a single machine, for example your own laptop. Just pretend that each running process of `mongod` is an independent node and it will work as well.
+
+### Initial setup
 Creating the keyfile:
 
 ```
@@ -69,7 +77,7 @@ db.createUser({
 Exiting out of the Mongo shell and connecting to the entire replica set:
 ```
 exit
-mongo --host "dbst-replset/localhost:27011" -u "rs-admin" -p "P4ssw0rd;" --authenticationDatabase "admin"
+mongo --host "dbst-replset/localhost:27011" -u "dbadmin" -p "P4ssw0rd;" --authenticationDatabase "admin"
 ```
 
 Getting replica set status:
