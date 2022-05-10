@@ -43,6 +43,8 @@ Upload this keyfile into all your nodes:
 scp dbst-keyfile dbadmin@remote_host_n:/var/mongodb/pki/dbst-keyfile
 ```
 
+### Start up MongoDB
+
 Starting mongod proccess for each node:
 
 ```
