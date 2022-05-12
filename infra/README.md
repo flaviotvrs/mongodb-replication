@@ -32,16 +32,6 @@ echo "mongodb-org-tools hold" | sudo dpkg --set-selections
 ```
 For more details about MongoDB installation check out [the documentation](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/).
 
-### Install MongoDB Shell
-
-Pick one node where to install MongoDB Shell, it will be used later for initial setup
-```
-wget https://downloads.mongodb.com/compass/mongodb-mongosh_1.3.1_amd64.deb
-
-sudo dpkg -i mongodb-mongosh_1.3.1_amd64.deb
-
-mongosh --version
-```
 
 ### Check out repository
 For each node you have in your topology you'll have to checkout this repository

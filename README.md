@@ -22,6 +22,13 @@ Or you can execute this script on a single machine, for example your own laptop.
 
 ### Initial setup
 
+Creating a directory for the key file authentication:
+
+```
+sudo mkdir -p /var/mongodb/pki
+sudo chown -R dbadmin /var/mongodb/pki
+```
+
 On your local environment generate one keyfile that will be used for the nodes to authenticate with each other:
 
 ```
@@ -29,36 +36,55 @@ openssl rand -base64 741 > ./dbst-keyfile
 chmod 400 ./dbst-keyfile
 ```
 
-Creating a db path and log path for each node:
-
-```
-sudo mkdir -p /var/mongodb/db
-sudo mkdir -p /var/mongodb/logs
-sudo mkdir -p /var/mongodb/pki
-sudo chown -R dbadmin /var/mongodb
-```
-
 Upload this keyfile into all your nodes:
 ```
-scp dbst-keyfile dbadmin@remote_host_n:/var/mongodb/pki/dbst-keyfile
+sshpass -p "P4ssw0rd;" scp dbst-keyfile dbadmin@remote_host_n:/var/mongodb/pki/dbst-keyfile
+```
+
+Set permission to the user mongodb to access key file:
+```
+sudo chown -R mongodb /var/mongodb/pki
 ```
 
 ### Start up MongoDB
 
-Starting mongod proccess for each node:
+Make some changes in file `/etc/mongod.conf` to enable the features below:
 
+* [bind ip](https://www.mongodb.com/docs/manual/reference/configuration-options/#mongodb-setting-net.bindIp) : The hostnames and/or IP addresses and/or full Unix domain socket paths on which mongos or mongod should listen for client connections.
 ```
-mongod -f configs/node-ubuntu.yaml
-```
-
-Check if the proccess is running:
-```
-ps aux | grep mongod
+net:
+  bindIp: localhost,<private_ip>
+  port: 27017
 ```
 
-Monitor the logs of mongod proccess:
+* [security key file](https://www.mongodb.com/docs/manual/reference/configuration-options/#mongodb-setting-security.keyFile) : The path to a key file that stores the shared secret that MongoDB instances use to authenticate to each other in a sharded cluster or replica set.
 ```
-tail -f /var/mongodb/logs/mongod.log
+security:
+  authorization: enabled
+  keyFile: /var/mongodb/pki/dbst-keyfile
+```
+
+* [replication](https://www.mongodb.com/docs/manual/reference/configuration-options/#replication-options) : The name of the replica set that the mongod is part of.
+```
+replication:
+  replSetName: dbst-replset
+```
+
+Starting mongod:
+
+```
+sudo systemctl start mongod
+```
+
+Check if the mongodb is running:
+```
+sudo systemctl status mongod
+
+```
+
+Monitor the logs of mongod:
+```
+sudo tail -f /var/log/mongodb/mongod.log
 ```
 
 ### Configuring ReplicaSet
@@ -85,10 +111,14 @@ db.createUser({
 })
 ```
 
-Exiting out of the Mongo shell and connecting to the entire replica set:
+Exiting out of the Mongo shell
 ```
 exit
-mongosh --host "dbst-replset/remote_host_1:27017" -u "dbadmin" -p "P4ssw0rd;" --authenticationDatabase "admin"
+```
+
+Connect to the entire replica set:
+```
+mongosh --host "dbst-replset/localhost:27017" -u "dbadmin" -p "P4ssw0rd;" --authenticationDatabase "admin"
 ```
 
 Getting replica set status:
