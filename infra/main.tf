@@ -25,34 +25,6 @@ resource "azurerm_subnet" "eastus2" {
   address_prefixes     = ["10.0.2.0/24"]
 }
 
-# resource "azurerm_virtual_network" "centralus" {
-#   name                = "centralus-replset-network"
-#   address_space       = ["10.0.0.0/16"]
-#   location            = "centralus"
-#   resource_group_name = azurerm_resource_group.main.name
-# }
-
-# resource "azurerm_subnet" "centralus" {
-#   name                 = "mongodb"
-#   resource_group_name  = azurerm_resource_group.main.name
-#   virtual_network_name = azurerm_virtual_network.centralus.name
-#   address_prefixes     = ["10.0.2.0/24"]
-# }
-
-# resource "azurerm_virtual_network_peering" "peer-eastus2-centralus" {
-#   name                      = "peer-eastus2-centralus"
-#   resource_group_name       = azurerm_resource_group.main.name
-#   virtual_network_name      = azurerm_virtual_network.eastus2.name
-#   remote_virtual_network_id = azurerm_virtual_network.centralus.id
-# }
-
-# resource "azurerm_virtual_network_peering" "peer-centralus-eastus2" {
-#   name                      = "peer-centralus-eastus2"
-#   resource_group_name       = azurerm_resource_group.main.name
-#   virtual_network_name      = azurerm_virtual_network.centralus.name
-#   remote_virtual_network_id = azurerm_virtual_network.eastus2.id
-# }
-
 module "mongodb-node-01" {
     source = "./ubuntu-server"
     resource_group_name = azurerm_resource_group.main.name
