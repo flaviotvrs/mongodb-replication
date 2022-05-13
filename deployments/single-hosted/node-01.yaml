@@ -1,7 +1,7 @@
 storage:
   dbPath: /var/mongodb/db/node1
 net:
-  bindIp: localhost
+  bindIp: localhost,10.0.0.4
   port: 27011
 security:
   authorization: enabled
