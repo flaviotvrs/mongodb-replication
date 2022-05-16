@@ -3,7 +3,7 @@
 ## Provision Infrastructure
 
 ```
-terraform -chdir=mongodb-replication/infra/ apply --var-file=mongodb-replication/deployments/multi-host/infra/terraform.tfvars --state=mongodb-replication/deployments/multi-host/infra/terraform.tfstate
+terraform -chdir=./infra/ apply --var-file=../deployments/single-host/infra/terraform.tfvars --state=../deployments/single-host/infra/terraform.tfstate
 ```
 
 ## Initial VM config
