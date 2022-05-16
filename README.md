@@ -133,3 +133,8 @@ Shows information about oplog of the node you are connected to.
 ```
 rs.printReplicationInfo()
 ```
+
+Prints a formatted report of the replica set status from the perspective of the secondary member of the set.
+```
+rs.printSecondaryReplicationInfo()
+```

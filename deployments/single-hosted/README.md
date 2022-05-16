@@ -12,8 +12,8 @@ Or you can execute this script on a single machine, for example your own laptop.
 On your local environment generate one keyfile that will be used for the nodes to authenticate with each other:
 
 ```
-openssl rand -base64 741 > ./heineken-keyfile
-chmod 400 ./heineken-keyfile
+openssl rand -base64 741 > ./brahma-keyfile
+chmod 400 ./brahma-keyfile
 ```
 
 Creating a db path and log path for each node:
@@ -27,7 +27,7 @@ sudo chown -R ftavares /var/mongodb
 
 Upload this keyfile into all your nodes:
 ```
-scp heineken-keyfile ftavares@remote_host_n:/var/mongodb/pki/heineken-keyfile
+scp brahma-keyfile ftavares@remote_host_n:/var/mongodb/pki/brahma-keyfile
 ```
 
 Starting mongod proccess for each node:
@@ -77,7 +77,7 @@ db.createUser({
 Exiting out of the Mongo shell and connecting to the entire replica set:
 ```
 exit
-mongosh --host "dbst-replset/localhost:27011" -u "dbadmin" -p "P4ssw0rd;" --authenticationDatabase "admin"
+mongosh --host "brahma/localhost:27011" -u "dbadmin" -p "P4ssw0rd;" --authenticationDatabase "admin"
 ```
 
 Getting replica set status:
