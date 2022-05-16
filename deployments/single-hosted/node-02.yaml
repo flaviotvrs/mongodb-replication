@@ -1,0 +1,16 @@
+storage:
+  dbPath: /var/mongodb/db/node2
+net:
+  bindIp: localhost,10.0.0.4
+  port: 27012
+security:
+  authorization: enabled
+  keyFile: /var/mongodb/pki/brahma-keyfile
+systemLog:
+  destination: file
+  path: /var/mongodb/logs/node2/mongod.log
+  logAppend: true
+processManagement:
+  fork: true
+replication:
+  replSetName: brahma
