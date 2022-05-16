@@ -1,0 +1,16 @@
+storage:
+  dbPath: /var/mongodb/db
+net:
+  bindIp: localhost,10.0.2.4
+  port: 27017
+security:
+  authorization: enabled
+  keyFile: /var/mongodb/pki/spaten-keyfile
+systemLog:
+  destination: file
+  path: /var/mongodb/logs/mongod.log
+  logAppend: true
+processManagement:
+  fork: true
+replication:
+  replSetName: spaten

@@ -14,54 +14,20 @@ A node with priority 0 can vote for election but it cannot run for election.
 ## Setup your environment
 
 ### Infrastructure
-In order to be able to exercise all concepts of this lab please provision 3 virtual machines - or phisical machines - in a network where they can reach each other and install MongoDB version 5 on each of them.
+To be able to exercise all concepts of this lab please pick one of the deployments listed [here](./deployments) and apply it in order to have your infrastructre set up. Each deployment has simple and straightforward instructions to provision infrastructure and install all the required software.
 
-I've terraformed this required environment for you, please take a look at [this instructions](./infra/README.md).
+Or you can execute this script on a single machine, for example your own laptop. Just make sure that you have the requirements below installed on your machine.
+Using a single machine you can simulate that each running process of `mongod` is an independent node and it will work as well.
 
-Or you can execute this script on a single machine, for example your own laptop. Just pretend that each running process of `mongod` is an independent node and it will work as well.
+### Requirements
 
-### Initial setup
-
-On your local environment generate one keyfile that will be used for the nodes to authenticate with each other:
-
-```
-openssl rand -base64 741 > ./dbst-keyfile
-chmod 400 ./dbst-keyfile
-```
-
-Creating a db path and log path for each node:
-
-```
-sudo mkdir -p /var/mongodb/db
-sudo mkdir -p /var/mongodb/logs
-sudo mkdir -p /var/mongodb/pki
-sudo chown -R dbadmin /var/mongodb
-```
-
-Upload this keyfile into all your nodes:
-```
-scp dbst-keyfile dbadmin@remote_host_n:/var/mongodb/pki/dbst-keyfile
-```
-
-Starting mongod proccess for each node:
-
-```
-mongod -f configs/node-ubuntu.yaml
-```
-
-Check if the proccess is running:
-```
-ps aux | grep mongod
-```
-
-Monitor the logs of mongod proccess:
-```
-tail -f /var/mongodb/logs/mongod.log
-```
+One or more virtual machines with the following software:
+* [MongoDB Community Server](https://www.mongodb.com/try/download/community)
+* [MongoDB Shell](https://www.mongodb.com/try/download/shell)
 
 ### Configuring ReplicaSet
 
-Connecting to one of your nodes:
+Connecting to one of your nodes using the localhost exception:
 ```
 mongosh --port 27017
 ```
@@ -86,7 +52,7 @@ db.createUser({
 Exiting out of the Mongo shell and connecting to the entire replica set:
 ```
 exit
-mongosh --host "dbst-replset/remote_host_1:27017" -u "dbadmin" -p "P4ssw0rd;" --authenticationDatabase "admin"
+mongosh --host "replset-name/host-1:27017" -u "dbadmin" -p "P4ssw0rd;" --authenticationDatabase "admin"
 ```
 
 Getting replica set status:
@@ -96,8 +62,8 @@ rs.status()
 
 Adding other members to replica set:
 ```
-rs.add("remote_host_2:27017")
-rs.add("remote_host_3:27017")
+rs.add("host-2:27017")
+rs.add("host-3:27017")
 ...
 ```
 
@@ -109,6 +75,11 @@ rs.isMaster()
 Stepping down the current primary:
 ```
 rs.stepDown()
+```
+
+Connecting to the whole replica set:
+```
+mongosh "mongodb://dbadmin:P4ssw0rd;@host-1:27017,host-2:27017,host-3:27017/?replicaSet=replset-name&authSource=admin&directConnection=true"
 ```
 
 ## Useful commands
