@@ -1,33 +1,31 @@
-resource "azurerm_resource_group" "main" {
-  name     = "bees-sbx-mongodb"
-  location = "eastus2"
-  tags = {
-    ResponsibleTeam = "Database & Storage"
-  }
-  lifecycle {
-    ignore_changes = [
-      tags["Creator"]
-    ]
-  }
+locals {
+  resource_group_name = "mongodb-${var.cluster_name}"
+  responsible_team    = "Database & Storage"
 }
 
-module "mongodb-node-01" {
-    source = "./ubuntu-server"
-    resource_group_name = azurerm_resource_group.main.name
-    server_name = "mongodb-node-01"
-    location = "eastus2"
+module "resource-group" {
+  source           = "./resource-group"
+  name             = local.resource_group_name
+  location         = var.location
+  responsible_team = local.responsible_team
 }
 
-module "mongodb-node-02" {
-    source = "./ubuntu-server"
-    resource_group_name = azurerm_resource_group.main.name
-    server_name = "mongodb-node-02"
-    location = "eastus2"
+module "network" {
+  source              = "./network"
+  name                = "${var.cluster_name}-network"
+  resource_group_name = local.resource_group_name
+  location            = var.location
+  responsible_team    = local.responsible_team
 }
 
-module "mongodb-node-03" {
-    source = "./ubuntu-server"
-    resource_group_name = azurerm_resource_group.main.name
-    server_name = "mongodb-node-03"
-    location = "centralus"
+module "mongodb-node" {
+  count               = var.node_count
+  source              = "./virtual-machine"
+  resource_group_name = local.resource_group_name
+  location            = var.location
+  vm_size             = var.vm_size
+  subnet_id           = module.network.subnet_id
+  name                = "${var.cluster_name}-${count.index}"
+  ssh_ip_address      = var.ssh_ip_address
+  responsible_team    = local.responsible_team
 }
