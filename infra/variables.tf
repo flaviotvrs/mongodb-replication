@@ -19,8 +19,8 @@ variable "node_count" {
   description = "The number of nodes in the cluster."
 }
 
-variable "ssh_ip_address" {
-  type        = string
-  default     = null
-  description = "The IP address to allow SSH access to the virtual machine."
+variable "ssh_ip_access_list" {
+  type        = list(string)
+  default     = []
+  description = "The list of IP addresses to allow SSH access to the virtual machine."
 }

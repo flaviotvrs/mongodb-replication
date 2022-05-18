@@ -3,6 +3,7 @@
 ## Provision Infrastructure
 
 ```
+terraform -chdir=./infra/ init
 terraform -chdir=./infra/ apply --var-file=../deployments/single-host/infra/terraform.tfvars --state=../deployments/single-host/infra/terraform.tfstate
 ```
 
