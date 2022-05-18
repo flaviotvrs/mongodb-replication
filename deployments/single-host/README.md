@@ -2,6 +2,9 @@
 
 ## Provision Infrastructure
 
+Refer to the documentation [here](../../infra/README.md) to get a step by step guide to provision your infrastructure with all the required software.
+
+Here are some commands to make your life easier when running terraform, but please **do not run these commands without reading the documentation described above**.
 ```
 terraform -chdir=./infra/ init
 terraform -chdir=./infra/ apply --var-file=../deployments/single-host/infra/terraform.tfvars --state=../deployments/single-host/infra/terraform.tfstate
@@ -27,15 +30,15 @@ sudo chown -R dbadmin /var/mongodb
 
 Upload this keyfile into all your nodes:
 ```
-scp brahma-keyfile dbadmin@remote-host:/var/mongodb/pki/brahma-keyfile
+scp ./brahma-keyfile dbadmin@remote-host:/var/mongodb/pki/brahma-keyfile
 ```
 
 Starting mongod proccess for each node:
 
 ```
-mongod -f deployments/single-hosted/node-01.yaml
-mongod -f deployments/single-hosted/node-02.yaml
-mongod -f deployments/single-hosted/node-03.yaml
+mongod -f deployments/single-host/configs/node-01.yaml
+mongod -f deployments/single-host/configs/node-02.yaml
+mongod -f deployments/single-host/configs/node-03.yaml
 ```
 
 Check if the proccess is running:
