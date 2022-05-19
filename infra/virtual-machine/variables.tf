@@ -23,10 +23,10 @@ variable "subnet_id" {
   description = "The ID of the subnet in which the virtual machine should be created."
 }
 
-variable "ssh_ip_address" {
-  type        = string
-  default     = null
-  description = "The IP address to allow SSH access to the virtual machine."
+variable "ssh_ip_access_list" {
+  type        = list(string)
+  default     = []
+  description = "The list of IP addresses to allow SSH access to the virtual machine."
 }
 
 variable "responsible_team" {

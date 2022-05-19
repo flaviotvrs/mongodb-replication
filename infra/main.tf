@@ -16,6 +16,10 @@ module "network" {
   resource_group_name = local.resource_group_name
   location            = var.location
   responsible_team    = local.responsible_team
+
+  depends_on = [
+    module.resource-group
+  ]
 }
 
 module "mongodb-node" {
@@ -26,6 +30,11 @@ module "mongodb-node" {
   vm_size             = var.vm_size
   subnet_id           = module.network.subnet_id
   name                = "${var.cluster_name}-${count.index}"
-  ssh_ip_address      = var.ssh_ip_address
+  ssh_ip_access_list  = var.ssh_ip_access_list
   responsible_team    = local.responsible_team
+
+  depends_on = [
+    module.resource-group,
+    module.network
+  ]
 }

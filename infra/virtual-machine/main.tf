@@ -26,16 +26,22 @@ resource "azurerm_network_security_group" "main" {
   location            = var.location
   resource_group_name = var.resource_group_name
 
-  security_rule {
-    access                     = "Allow"
-    direction                  = "Inbound"
-    name                       = "SSH"
-    priority                   = 100
-    protocol                   = "Tcp"
-    source_address_prefix      = var.ssh_ip_address != null ? var.ssh_ip_address : "*"
-    source_port_range          = "*"
-    destination_port_range     = "22"
-    destination_address_prefix = azurerm_network_interface.main.private_ip_address
+  dynamic "security_rule" {
+
+    for_each = var.ssh_ip_access_list
+
+    content {
+      access                     = "Allow"
+      direction                  = "Inbound"
+      name                       = "SSH"
+      priority                   = 100
+      protocol                   = "Tcp"
+      source_address_prefix      = security_rule.value
+      source_port_range          = "*"
+      destination_port_range     = "22"
+      destination_address_prefix = azurerm_network_interface.main.private_ip_address
+    }
+
   }
 
   security_rule {
