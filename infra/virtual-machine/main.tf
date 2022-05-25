@@ -28,13 +28,13 @@ resource "azurerm_network_security_group" "main" {
 
   dynamic "security_rule" {
 
-    for_each = var.ssh_ip_access_list
+    for_each = { for i, v in var.ssh_ip_access_list : i => v }
 
     content {
       access                     = "Allow"
       direction                  = "Inbound"
-      name                       = "SSH"
-      priority                   = 100
+      name                       = "SSH_${replace(security_rule.value, ".", "_")}"
+      priority                   = 200 + security_rule.key
       protocol                   = "Tcp"
       source_address_prefix      = security_rule.value
       source_port_range          = "*"
